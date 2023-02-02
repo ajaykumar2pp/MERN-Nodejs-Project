@@ -64,7 +64,7 @@ router.post('/login-user', async (req, res) => {
   res.header('auth-token', token).send(token);
 
 })
-
+// *****************************************************************************************//
 // **********************************  Add a new Order   *********************************//
 router.post('/add-order', async (req, res) => {
   const { userId, subTotal, phoneNumber } = req.body;
@@ -92,6 +92,8 @@ router.get('/get-order', async (req, res) => {
     res.status(400).send(err);
   }
 });
+
+
 
 
 

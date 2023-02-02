@@ -21,6 +21,9 @@ connectMonggose();
 
 // ************************   Flash    ******************************************//
 // app.use(flash())
+
+// **********************************  Global Variable Used **************************//
+global.appRoot = path.resolve(__dirname);
 // *************************    Assets    ****************************************//
 
 app.use("/assets", express.static('./assets'));
@@ -28,6 +31,8 @@ app.use( bodyParser.urlencoded({ extended: true }) );
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+// **********************************  Uploads  ************************************//
+app.use('/uploads', express.static('uploads'));
 
 // ***************************  Routes  *************************************//
 app.use(router);
