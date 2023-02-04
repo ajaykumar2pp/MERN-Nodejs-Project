@@ -25,8 +25,10 @@ connectMonggose();
 // **********************************  Global Variable Used **************************//
 global.appRoot = path.resolve(__dirname);
 // *************************    Assets    ****************************************//
-
-app.use("/assets", express.static('./assets'));
+const publicPath = path.join(__dirname,"public");
+app.use(express.static(publicPath));
+app.use(express.static(__dirname + '/public'));
+// app.use("/assets", express.static('./assets'));
 app.use( bodyParser.urlencoded({ extended: true }) );
 
 app.use(express.urlencoded({ extended: false }))
