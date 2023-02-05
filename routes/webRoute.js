@@ -4,10 +4,11 @@ const User = require('../app/model/user')
 const Order = require('../app/model/order')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const {  checkUser, verifyToken } = require('../app/middleware/verifyToken');
 
 
 
-
+router.get('*', checkUser);
 // ********************************************   Home  Page   **********************//
 router.get("/", (req, resp) => {
   resp.render('home')
@@ -16,24 +17,24 @@ router.get("/", (req, resp) => {
 
 
 // ********************************************   Smoothie Page   **********************//
-router.get("/smoothies", (req, resp) => {
+router.get("/smoothies", verifyToken,(req, resp) => {
   resp.render('smoothies')
 })
 
 
 
-// ******************************************   Register SETUP  ********************************//
+// ******************************************   Register User ********************************//
 router.get("/add-user", (req, resp) => {
   resp.render('register')
 })
 
-// ******************************************   SIGN IN SETUP  ********************************//
+// ******************************************   SIGN IN User   ********************************//
 router.get("/signin", (req, resp) => {
   resp.render('login')
 })
 
-// **********************************  Add a New User    *********************************//
-router.post('/', async (req, res) => {
+// ***************************   (Add a New User) Register User Post   **********************//
+router.post('/add-user', async (req, res) => {
   const { name, phoneNumber, password } = req.body;
   console.log(name, phoneNumber, password)
   // Hash the password
@@ -62,7 +63,7 @@ router.post('/', async (req, res) => {
 })
 // ***********************************  Create a Json Web Token  *********************//
 const maxAge = 3 * 24 * 60 * 60;
-// **********************************  Login a User   *********************************//
+// **************************  (Login a User)  Login Post user  **********************//
 router.post('/login-user', async (req, res) => {
   const { phoneNumber, password } = req.body;
   console.log(phoneNumber, password)
@@ -72,7 +73,6 @@ router.post('/login-user', async (req, res) => {
     return res.redirect('/register')
 
   }
-
   // Find the user by phone number
   const user = await User.findOne({ phoneNumber });
   if (!user)
@@ -89,7 +89,7 @@ router.post('/login-user', async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: maxAge });
   // res.header('auth-token', token).send(token);
   res.cookie('jwt', token, { maxAge: maxAge * 1000 });
-  res.redirect("OrderPage");
+  res.redirect("smoothies");
   console.log("auth-token =>>", token)
 
 })
@@ -129,7 +129,11 @@ router.get('/orderpage', async (req, res) => {
    res.render("OrderPage")
 });
 
-
+// ********************************** Logout User   *********************************//
+router.get('/logout', async (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect("/")
+});
 
 
 

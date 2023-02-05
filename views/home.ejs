@@ -23,28 +23,36 @@
 </head>
 
 <body>
-    <h1 class="text-center mt-3 text-primary ">Visit Recipe</h1>
+
+
+    <!-- **********************   NavBar    ********************** -->
+    <nav>
+        <h1 class="text-center mt-3 text-primary "> <a href="/"></a> Visit Recipe</h1>
+        <ul>
+            <% if (user) { %>
+               
+                <li><a href="/logout">Log out</a></li>
+                <% } else { %>
+                    <li><a href="/signin">Log in</a></li>
+                    <li><a href="/add-user" class="btn">Register</a></li>
+                    <% } %>
+        </ul>
+    </nav>
+
+
+
     <div class="container-fluid d-flex">
-
-
         <div class="smoothie">
-            <img src="./images/smoothie.png" alt="smoothie">
+            <img src="./images/smoothie.png" alt="smoothie" class="img-fluid">
         </div>
         <div class="headings">
             <h2 class="display-4">Smoothie Recipes</h2>
-            <h class="display-5">By Ninjas For Ninjas</h3>
-            <a href="/smoothies" class="btn mt-4">View Recipes</a>
+                <a href="/smoothies" class="btn mt-4">View Recipes</a>
         </div>
-
-
     </div>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
 </body>
 
 </html>
